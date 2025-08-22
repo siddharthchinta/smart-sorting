@@ -1,0 +1,57 @@
+# Model Configuration
+model:
+  name: "mobilenetv2"  # Options: mobilenetv2, resnet50, efficientnet
+  input_shape: [224, 224, 3]
+  num_classes: 2  # fresh vs rotten
+  dropout_rate: 0.2
+  learning_rate: 0.0001
+  weights: "imagenet"  # or path to custom weights
+  include_top: False
+
+# Training Configuration
+training:
+  batch_size: 32
+  epochs: 50
+  patience: 10  # Early stopping patience
+  train_val_split: 0.2
+  test_split: 0.1
+  class_mode: "categorical"
+  
+# Data Augmentation
+data_augmentation:
+  rotation_range: 20
+  width_shift_range: 0.2
+  height_shift_range: 0.2
+  shear_range: 0.2
+  zoom_range: 0.2
+  horizontal_flip: True
+  fill_mode: "nearest"
+  
+# Paths
+paths:
+  data_dir: "data/raw"
+  processed_dir: "data/processed"
+  augmented_dir: "data/augmented"
+  models_dir: "models"
+  logs_dir: "logs"
+  
+# Classes
+classes:
+  - "fresh"
+  - "rotten"
+
+# Deployment
+deployment:
+  web:
+    host: "0.0.0.0"
+    port: 5000
+    debug: True
+  edge:
+    target_fps: 10
+    confidence_threshold: 0.7
+    
+# Logging
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/app.log"
